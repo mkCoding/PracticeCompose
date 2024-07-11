@@ -75,7 +75,7 @@ fun CustomDatePicker(
             .clickable { open.value = true }
             .padding(16.dp),
         enabled = false,// <- Add this to make click event work
-        value = value.format(DateTimeFormatter.ISO_DATE) ,
+        value = value.format(DateTimeFormatter.ofPattern("MMMM/dd/yyyy")) ,
         onValueChange = {},
         colors = TextFieldDefaults.outlinedTextFieldColors(
             disabledTextColor = MaterialTheme.colorScheme.onSurface,
