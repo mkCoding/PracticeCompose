@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PracticeComposeTheme {
-                    TestScreen3()
+                    CalendarScreen2()
             }
         }
     }

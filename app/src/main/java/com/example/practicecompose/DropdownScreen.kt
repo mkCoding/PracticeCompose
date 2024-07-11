@@ -1,6 +1,5 @@
 package com.example.practicecompose
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,7 +26,7 @@ Dropdown menu in Compose (Gender)
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TestScreen3() {
+fun DropdownScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -172,5 +171,5 @@ fun NumberDropdown() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewDropdownScreen(){
-    TestScreen3()
+    DropdownScreen()
 }

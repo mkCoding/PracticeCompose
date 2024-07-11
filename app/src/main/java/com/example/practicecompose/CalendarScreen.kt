@@ -29,7 +29,7 @@ Date picker in Compose
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyContent(){
+fun CalendarScreen(){
 
     // Fetching the Local Context
     val mContext = LocalContext.current
@@ -86,5 +86,5 @@ fun MyContent(){
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    MyContent()
+    CalendarScreen()
 }
