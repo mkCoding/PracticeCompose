@@ -1,5 +1,8 @@
 package com.example.practicecompose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,7 +44,6 @@ fun CardListScreen() {
     val scrollState = rememberLazyListState()
 
     Column(modifier = Modifier.padding(16.dp)) {
-        // Displaying cards in a scrollable row
         LazyRow(
             state = scrollState,
             modifier = Modifier
@@ -49,24 +51,28 @@ fun CardListScreen() {
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Display existing cards
             items(cards) { card ->
-                Card(
-                    modifier = Modifier
-                        .size(120.dp, 180.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.Cyan)
+                AnimatedVisibility(
+                    visible = true,  // This should typically be tied to a state
+                    enter = fadeIn(animationSpec = tween(durationMillis = 300))
                 ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    Card(
+                        modifier = Modifier
+                            .size(120.dp, 180.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.Cyan)
                     ) {
-                        Text(card)
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(card)
+                        }
                     }
                 }
             }
 
-            // Add Card button as the last item in the LazyRow
+            // Add Card button
             item {
                 Card(
                     modifier = Modifier
@@ -74,14 +80,13 @@ fun CardListScreen() {
                         .padding(8.dp)
                         .clickable {
                             cardCounter++
-                            cards = cards + "Card ${cardCounter}" // Add new card to the right
+                            cards = cards + "Card ${cardCounter}"
                         },
                     shape = RoundedCornerShape(8.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.LightGray)
                 ) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -90,14 +95,17 @@ fun CardListScreen() {
                 }
             }
         }
-    }
 
-    LaunchedEffect(cards.size) {
-        if (cards.isNotEmpty()) {
-            scrollState.animateScrollToItem(cards.size) // Scroll to the position of the "Add Card" button
+        // Auto-scroll to keep "Add Card" button visible
+        LaunchedEffect(cards.size) {
+            if (cards.isNotEmpty()) {
+                scrollState.animateScrollToItem(cards.size)
+            }
         }
     }
 }
+
+
 
 
 
