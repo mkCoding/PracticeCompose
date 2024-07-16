@@ -1,8 +1,10 @@
 package com.example.practicecompose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -34,45 +36,26 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CardListScreen() {
-    // State to hold the list of cards
     var cards by remember { mutableStateOf(listOf<String>()) }
-
-
-    // A counter to generate unique card names
     var cardCounter by remember { mutableStateOf(0) }
-
     val scrollState = rememberLazyListState()
 
-
     Column(modifier = Modifier.padding(16.dp)) {
-        // Button to add a new card
-        Button(
-            onClick = {
-                cardCounter++ // Increment counter for a unique card name
-                cards = cards + "Card ${cardCounter}" // Add a new card
-
-            },
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            Text("Add Card")
-        }
-
         // Displaying cards in a scrollable row
         LazyRow(
             state = scrollState,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp) // Space between cards
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            // Display existing cards
             items(cards) { card ->
                 Card(
                     modifier = Modifier
                         .size(120.dp, 180.dp),
                     shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Cyan
-                    )
+                    colors = CardDefaults.cardColors(containerColor = Color.Cyan)
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp),
@@ -82,16 +65,40 @@ fun CardListScreen() {
                     }
                 }
             }
+
+            // Add Card button as the last item in the LazyRow
+            item {
+                Card(
+                    modifier = Modifier
+                        .size(120.dp, 180.dp)
+                        .padding(8.dp)
+                        .clickable {
+                            cardCounter++
+                            cards = cards + "Card ${cardCounter}" // Add new card to the right
+                        },
+                    shape = RoundedCornerShape(8.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.LightGray)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text("Add Card")
+                    }
+                }
+            }
         }
     }
 
-    // Scroll will jump to newly created card
     LaunchedEffect(cards.size) {
         if (cards.isNotEmpty()) {
-            scrollState.animateScrollToItem(cards.lastIndex)
+            scrollState.animateScrollToItem(cards.size) // Scroll to the position of the "Add Card" button
         }
     }
 }
+
 
 
 @Preview(showBackground = true)
