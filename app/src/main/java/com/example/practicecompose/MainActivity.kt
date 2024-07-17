@@ -25,10 +25,12 @@ class MainActivity : ComponentActivity() {
 
                 //var rating by remember { mutableStateOf(3.5f) }
 
-                Column(modifier = Modifier.padding(top = 50.dp)) {
-                    StarRating()
-                }
+//                Column(modifier = Modifier.padding(top = 50.dp)) {
+//                    StarRating()
+//                }
 
+
+                CheckboxGrid2()
             }
         }
     }
