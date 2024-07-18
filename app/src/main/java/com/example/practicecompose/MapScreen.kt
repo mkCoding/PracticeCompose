@@ -3,28 +3,56 @@ package com.example.practicecompose
 import android.Manifest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.google.accompanist.permissions.*
+import com.example.practicecompose.ui.theme.PracticeComposeTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.*
-import com.example.practicecompose.ui.theme.PracticeComposeTheme
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.rememberCameraPositionState
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -32,13 +60,25 @@ import com.example.practicecompose.ui.theme.PracticeComposeTheme
 fun MapScreen(isPreview: Boolean = false) {
     if (isPreview) {
         Box(modifier = Modifier.fillMaxSize()) {
+
+            GoogleMap(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onPress = { /* Handle map press gestures */ }
+                        )
+                    }
+            )
+
+
             MapView(isPreview = true)
             SearchBar()
 
             Row(
                 modifier = Modifier
                     .width(500.dp)
-                    .padding(top = 14.dp)
+                    .padding(top = 30.dp)
                     .padding(start = 15.dp)
             ) {
                 //Render on Preview
@@ -46,13 +86,14 @@ fun MapScreen(isPreview: Boolean = false) {
                 FilterButton()
                 ListButton()
             }
-
             CurrentLocationButton()
 
-//            BottomCard()
-
+        }
+        Column (modifier = Modifier.padding(top = 300.dp)){
             HorizontalScrollableList()
         }
+
+
     } else {
         val permissionState = rememberPermissionState(Manifest.permission.ACCESS_FINE_LOCATION)
 
@@ -67,19 +108,25 @@ fun MapScreen(isPreview: Boolean = false) {
                 MapView()
                 SearchBar()
 
-                //Render on device
-                Row {
+                Row(
+                    modifier = Modifier
+                        .width(500.dp)
+                        .padding(top = 30.dp)
+                        .padding(start = 15.dp)
+                ) {
+                    //Render on Preview
                     BackButton()
                     FilterButton()
                     ListButton()
                 }
-
                 CurrentLocationButton()
 
-//                BottomCard()
-
+            }
+            Column (modifier = Modifier.padding(top = 300.dp)){
                 HorizontalScrollableList()
             }
+
+
         } else {
             // Handle permission not granted case
             Box(
@@ -101,6 +148,7 @@ fun MapView(isPreview: Boolean = false) {
             position = CameraPosition.fromLatLngZoom(LatLng(-34.0, 151.0), 10f)
         }
 
+
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
@@ -111,6 +159,8 @@ fun MapView(isPreview: Boolean = false) {
                 isTrafficEnabled = true,
             )
         )
+
+
     }
 }
 
@@ -135,7 +185,7 @@ fun SearchBar() {
     Row(
         modifier = Modifier
             .padding(16.dp)
-            .padding(top = 80.dp)
+            .padding(top = 110.dp)
             .background(Color.White, RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 1.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -220,7 +270,6 @@ fun ListButton() {
     Box(
         modifier = Modifier
             .padding(1.dp)
-//            .padding(start = 49.dp)
             .wrapContentSize()
     ) {
         // List Button
@@ -249,7 +298,7 @@ fun CurrentLocationButton() {
     Box(
         modifier = Modifier
             .padding(1.dp)
-            .padding(top = 580.dp, start = 300.dp)
+            .padding(top = 540.dp, start = 300.dp)
             .wrapContentSize()
     ) {
         // List Button
@@ -272,94 +321,52 @@ fun CurrentLocationButton() {
 }
 
 @Composable
-fun BottomCard() {
-    Box(
-        modifier = Modifier
-            .padding(top = 700.dp)
-            .fillMaxWidth()
-            .padding(16.dp)
-            .background(Color.White, RoundedCornerShape(8.dp))
-            .padding(16.dp),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            // Example Hotel Cards
-            HotelCard(hotelName = "Resort Hotel", rating = 4.8)
-            Spacer(modifier = Modifier.width(8.dp))
-            HotelCard(hotelName = "Windsor Hotel", rating = 4.4)
-        }
-    }
-}
-
-
-@Composable
-fun HotelCard(hotelName: String, rating: Double) {
-    Column(
-        modifier = Modifier
-            .background(Color.LightGray, RoundedCornerShape(8.dp))
-            .padding(8.dp)
-    ) {
-        // Replace with an Image composable for actual images
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .background(Color.Gray, RoundedCornerShape(8.dp))
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(hotelName, style = MaterialTheme.typography.bodyMedium)
-        Text("Rating: $rating", style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-@Composable
 fun HorizontalScrollableList() {
     val items = listOf(
-        "Card 1",
-        "Card 2",
-        "Card 3",
-        "Card 4",
-        "Card 5"
+        "Azure Haven Resort",
+        "Crimson Peak Lodge",
+        "Golden Sands Retreat",
+        "Emerald Isle Hotel",
+        "Silver Creek Inn"
     )
 
+
     LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp)
     ) {
+
         items(items.size) { index ->
             CardItem(title = items[index])
         }
     }
+
 }
 
 @Composable
 fun CardItem(title: String) {
+
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .padding(top = 670.dp)
-            .size(width = 270.dp, height = 155.dp),
+            .padding(16.dp)
+            .padding(top = 200.dp)
+            .size(width = 280.dp, height = 180.dp),
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-
-        )
-
-        {
-            Column(modifier = Modifier) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column {
                 Image(
                     painter = painterResource(id = R.drawable.hotel_pic),
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp),
+                        .height(130.dp),
                     contentScale = ContentScale.Crop
-
                 )
-
-
-
                 Box(
                     modifier = Modifier
                         .padding(16.dp)
@@ -368,39 +375,26 @@ fun CardItem(title: String) {
                 ) {
                     Row {
                         Text(
-                            text = "Hotel Details",
+                            text = title,
                             modifier = Modifier.padding(start = 7.dp)
                         )
-
-                        Spacer(modifier = Modifier.width(75.dp))
-
-
-                        //Rating Star
+                        Spacer(modifier = Modifier.width(60.dp))
                         Image(
-
-                            modifier = Modifier.size(24.dp), // Adjust size as needed
+                            modifier = Modifier.size(24.dp),
                             contentScale = ContentScale.Fit,
                             painter = painterResource(id = R.drawable.rating_star),
                             contentDescription = "Rating Star"
-
                         )
-
-
-                        //Rating Number
                         Text(
                             text = "4.8",
                             modifier = Modifier.padding(start = 7.dp)
                         )
                     }
-
-
-
                 }
-
-
             }
         }
     }
+
 }
 
 @Preview(showBackground = true)
