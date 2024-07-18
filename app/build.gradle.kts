@@ -87,4 +87,9 @@ dependencies {
     implementation ("androidx.compose.material:material:1.6.0")
     implementation ("androidx.compose.material:material-icons-extended:1.0.0")
 
+    //Map
+    implementation ("com.google.android.gms:play-services-maps:18.0.2")
+    implementation ("com.google.maps.android:maps-compose:2.5.3")
+    implementation ("com.google.accompanist:accompanist-permissions:0.24.3-alpha")
+
 }
