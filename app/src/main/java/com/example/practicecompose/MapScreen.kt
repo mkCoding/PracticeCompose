@@ -337,7 +337,7 @@ fun CardItem(title: String) {
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(top = 670.dp)
-            .size(width = 270.dp, height = 150.dp),
+            .size(width = 270.dp, height = 155.dp),
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Box(
@@ -347,16 +347,56 @@ fun CardItem(title: String) {
         )
 
         {
-            Column() {
+            Column(modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.drawable.hotel_pic),
                     contentDescription = "",
-                    modifier = Modifier.fillMaxWidth().height(100.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
                     contentScale = ContentScale.Crop
 
                 )
 
-                Text(text = "Hotel Details")
+
+
+                Box(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Row {
+                        Text(
+                            text = "Hotel Details",
+                            modifier = Modifier.padding(start = 7.dp)
+                        )
+
+                        Spacer(modifier = Modifier.width(75.dp))
+
+
+                        //Rating Star
+                        Image(
+
+                            modifier = Modifier.size(24.dp), // Adjust size as needed
+                            contentScale = ContentScale.Fit,
+                            painter = painterResource(id = R.drawable.rating_star),
+                            contentDescription = "Rating Star"
+
+                        )
+
+
+                        //Rating Number
+                        Text(
+                            text = "4.8",
+                            modifier = Modifier.padding(start = 7.dp)
+                        )
+                    }
+
+
+
+                }
+
 
             }
         }
