@@ -185,7 +185,7 @@ fun SearchBar() {
     Row(
         modifier = Modifier
             .padding(16.dp)
-            .padding(top = 110.dp)
+            .padding(top = 85.dp)
             .background(Color.White, RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 1.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -298,7 +298,7 @@ fun CurrentLocationButton() {
     Box(
         modifier = Modifier
             .padding(1.dp)
-            .padding(top = 540.dp, start = 300.dp)
+            .padding(top = 510.dp, start = 320.dp)
             .wrapContentSize()
     ) {
         // List Button
@@ -335,7 +335,7 @@ fun HorizontalScrollableList() {
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().padding(top = 275.dp) //push card row down
             .padding(bottom = 16.dp)
     ) {
 
@@ -352,9 +352,8 @@ fun CardItem(title: String) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .padding(16.dp)
-            .padding(top = 200.dp)
-            .size(width = 280.dp, height = 180.dp),
+            .padding(1.dp)
+            .size(width = 300.dp, height = 180.dp),
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -378,7 +377,7 @@ fun CardItem(title: String) {
                             text = title,
                             modifier = Modifier.padding(start = 7.dp)
                         )
-                        Spacer(modifier = Modifier.width(60.dp))
+                        Spacer(modifier = Modifier.width(30.dp))
                         Image(
                             modifier = Modifier.size(24.dp),
                             contentScale = ContentScale.Fit,
