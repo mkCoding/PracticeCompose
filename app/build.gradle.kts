@@ -1,6 +1,9 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -19,7 +22,7 @@ android {
             useSupportLibrary = true
         }
 
-
+        // load local.properties file
 
     }
 
@@ -86,7 +89,6 @@ dependencies {
     implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.2.0")
     implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.2.0")
 
-
     implementation ("androidx.compose.material:material:1.6.0")
     implementation ("androidx.compose.material:material-icons-extended:1.0.0")
 
@@ -95,4 +97,8 @@ dependencies {
     implementation ("com.google.maps.android:maps-compose:2.5.3")
     implementation ("com.google.accompanist:accompanist-permissions:0.24.3-alpha")
 
+
+    //implementation("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+
+    //classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
 }

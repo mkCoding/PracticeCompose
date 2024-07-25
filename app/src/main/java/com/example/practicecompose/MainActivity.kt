@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.practicecompose.ui.CalendarRangeScreen3
 import com.example.practicecompose.ui.theme.PracticeComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PracticeComposeTheme {
-                MapScreen()
+                CalendarRangeScreen3()
             }
         }
     }
