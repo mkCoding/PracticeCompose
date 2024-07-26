@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PracticeComposeTheme {
-                CalendarRangeScreen3()
+                ModalBottomSheetScreen()
             }
         }
     }

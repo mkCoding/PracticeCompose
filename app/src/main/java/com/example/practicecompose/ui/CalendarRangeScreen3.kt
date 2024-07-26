@@ -64,14 +64,10 @@ fun CalendarRangeScreen3() {
     var endDate by remember { mutableStateOf(LocalDate.now().plusDays(7)) }
     var openDialog by remember { mutableStateOf(false) }
 
+    //if this button is clicked the Calendar dialog should open
     DateRangeButton(startDate, endDate) {
         openDialog = true
     }
-
-
-
-
-
 
     if (openDialog) {
         CustomCalendarDialog(
@@ -82,6 +78,7 @@ fun CalendarRangeScreen3() {
             onSelectRange = { newStartDate, newEndDate ->
                 startDate = newStartDate
                 endDate = newEndDate
+                openDialog = false
             }
         )
     }
